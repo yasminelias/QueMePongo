@@ -1,0 +1,68 @@
+@startuml
+
+interface CondicionesClimaticas {
+    estadoDelTiempo(String ubicacion)
+    obtenerCondiciones(String condicion)
+}
+
+CondicionesClimaticasAccuWeather ..|> CondicionesClimaticas
+CondicionesClimaticasOtraAPI ..|> CondicionesClimaticas
+
+class Prenda {
+    tipoPrenda
+    material
+    colorPrincipal
+    colorSecundario
+    trama
+
+    categoria()
+}
+
+SugerenciaDeAtuendo --> "  *  " Prenda
+
+class SugerenciaDeAtuendo {
+    prendasSuperiores
+    prendasInferiores
+    calzados
+
+    generarSugerencia()
+    prendasSuperioresAcordes()
+    prendasInferioresAcordes()
+    calzadosAcordes()
+}
+
+SugerenciaDeAtuendo ..> CondicionesClimaticas
+
+class CondicionesClimaticasAccuWeather {
+    CondicionesClimaticasAccuWeather instancia
+    LocalDateTime ultimaActualizacion
+    AccuWeatherAPI apiClima
+    List<HashMap> condicionesClimaticas
+
+    obtenerCondiciones(String condicion)
+    pasoTiempoLimite()
+    estadoDelTiempo(String ubicacion)
+    getInstance()
+}
+
+CondicionesClimaticasAccuWeather --> AccuWeatherAPI
+
+class AccuWeatherAPI {
+    getWheather(String ciudad)
+}
+
+class CondicionesClimaticasOtraAPI {
+    CondicionesClimaticasOtraAPI instancia
+
+    obtenerCondiciones(String condicion)
+    estadoDelTiempo(String ubicacion)
+}
+
+CondicionesClimaticasOtraAPI --> OtraAPI 
+
+class OtraAPI {
+    getWheather(String ciudad)
+}
+
+
+@enduml
